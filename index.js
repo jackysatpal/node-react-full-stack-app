@@ -1,12 +1,16 @@
 const express = require('express');
+const mongoose = require('mongoose');
+require('./services/passport');
+const keys = require('./config/keys');
+require('./models/User');
+
+mongoose.connect(keys.mongoURI);
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-app.get('/', (req, res) => {
-	res.send({ hi: 'there' });
-});
+require('./routes/authRoutes')(app);
 
 app.listen(PORT, () => {
-	console.log('server is up and running at 8080');
+	console.log(`server is up and running at ${PORT}`);
 });
